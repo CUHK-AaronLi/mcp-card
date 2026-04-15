@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Enable pnpm
+        run: corepack enable pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Build
+        run: pnpm build
+      - name: Test
+        run: pnpm test
+      - name: Pack (sanity check tarballs)
+        run: |
+          pnpm --filter @mcp-card/schema pack --pack-destination /tmp
+          pnpm --filter @mcp-card/client pack --pack-destination /tmp
+          pnpm --filter @mcp-card/middleware pack --pack-destination /tmp
+          pnpm --filter mcp-card pack --pack-destination /tmp
+          ls -la /tmp/mcp-card*.tgz

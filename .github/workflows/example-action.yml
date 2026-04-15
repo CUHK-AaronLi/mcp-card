@@ -1,0 +1,18 @@
+# Demo workflow showing how to use this repo as a GitHub Action.
+# Consumers can copy this snippet into their own .github/workflows/.
+name: Validate Server Card (demo)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate local card
+        uses: ./
+        with:
+          target: |
+            packages/cli/test-fixtures/example-card.json
+          fail-on-warnings: "false"
