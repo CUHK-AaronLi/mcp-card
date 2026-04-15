@@ -36,20 +36,25 @@ app.use(serverCardHono({
 
 | 包 | 干啥 |
 |---|---|
-| [`mcp-card`](packages/cli) | CLI：生成、校验、预览、转换 server card |
+| [`mcp-card`](packages/cli) | CLI：生成、校验、预览、**discover**、**crawl**、转换 |
 | [`@mcp-card/middleware`](packages/middleware) | 一行接入的中间件，支持 Express / Hono / Cloudflare Workers / Next.js |
+| [`@mcp-card/client`](packages/client) | 编程式 API：拉取 + 校验 + 批量爬取 card（CLI 也基于它） |
 | [`@mcp-card/schema`](packages/schema) | SEP-2127 的 TypeBox + JSON Schema，附 TS 类型 |
+
+外加一个 [GitHub Action](#github-action)，CI 里一行验 card。
 
 ## CLI
 
 ```bash
 npm i -g mcp-card
 
-mcp-card init                          # 交互式生成 card
+mcp-card init                              # 交互式生成 card
 mcp-card validate ./mcp-server-card.json
-mcp-card validate https://your-mcp.com   # 自动拉 /.well-known
+mcp-card validate https://your-mcp.com     # 自动拉 /.well-known
 mcp-card preview ./mcp-server-card.json
-mcp-card from-server-json ./server.json   # 从 MCP Registry server.json 转换
+mcp-card discover https://github-mcp.com   # 远端 server 完整报告（延迟/headers/警告）
+mcp-card crawl ./urls.txt                  # 批量扫一组 URL 的 SEP-2127 合规情况
+mcp-card from-server-json ./server.json    # 从 MCP Registry server.json 转换
 ```
 
 `mcp-card validate` 校验远端 URL 时会同时检查 `Cache-Control`、`Access-Control-Allow-Origin`、`Content-Type` header，缺失会警告。
@@ -70,6 +75,26 @@ $ mcp-card preview ./mcp-server-card.json
 │ by Spike Inc                                  │
 └───────────────────────────────────────────────┘
 ```
+
+## 编程式 client
+
+```ts
+import { discover, crawl, fetchCard } from "@mcp-card/client";
+
+const result = await discover("https://github-mcp.com");
+if (result.ok) {
+  console.log(result.card.name, result.card.version);
+  console.log("警告:", result.warnings);
+}
+
+const report = await crawl(
+  ["https://server-a.com", "https://server-b.com"],
+  { concurrency: 16 },
+);
+console.log(`${report.ok}/${report.total} 个 server 合规`);
+```
+
+`fetchCard` 返回原始响应（status / headers / 校验错误 / 延迟）。`discover` 在此基础上加上最佳实践 header 警告。`crawl` 并行批量跑。
 
 ## 中间件
 
@@ -142,18 +167,50 @@ serverCardHono({
 })
 ```
 
+## GitHub Action
+
+每次 PR 自动校验你 repo 里的 `mcp-server-card.json`：
+
+```yaml
+# .github/workflows/validate-card.yml
+name: Validate MCP Server Card
+on: [pull_request]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: CUHK-AaronLi/mcp-card@v0.1.0
+        with:
+          target: mcp-server-card.json   # 文件路径或 URL，多行支持
+          fail-on-warnings: "false"       # true 则缺 CORS/cache-control 也算失败
+```
+
+多目标示例：
+
+```yaml
+        with:
+          target: |
+            mcp-server-card.json
+            https://staging.your-mcp.com
+            https://prod.your-mcp.com
+          fail-on-warnings: "true"
+```
+
 ## 与 Go 实现对比
 
 | | `mcp-card` | [`mcp-servercard-go`](https://github.com/olgasafonova/mcp-servercard-go) |
 |---|---|---|
 | 语言 | TypeScript | Go |
-| CLI | ✅ init / validate / preview / from-server-json | ❌ |
+| CLI | ✅ 6 个命令（含 discover、crawl） | ❌ |
+| 编程式 client | ✅ `@mcp-card/client` | ❌ |
 | Web Fetch handler | ✅ 跨 runtime | ❌ |
 | Express 中间件 | ✅ | ❌ |
 | Hono 中间件 | ✅ | ❌ |
 | Cloudflare Workers | ✅ | ❌ |
 | Next.js Route Handler | ✅ | ❌ |
 | go-sdk 中间件 | ❌ | ✅ |
+| GitHub Action | ✅ | ❌ |
 | SEP-2127 schema | ✅ TypeBox + JSON Schema | ✅ |
 
 ## 开发

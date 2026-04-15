@@ -1,0 +1,53 @@
+name: "MCP Server Card Validator"
+description: "Validate one or more MCP Server Cards (SEP-2127) — file paths or remote URLs"
+author: "Yunxiang Li"
+branding:
+  icon: "check-circle"
+  color: "blue"
+
+inputs:
+  target:
+    description: "File path or URL to validate. Multi-line input is supported (one target per line)."
+    required: false
+    default: "mcp-server-card.json"
+  fail-on-warnings:
+    description: "Treat header warnings (missing Cache-Control, CORS) as failures."
+    required: false
+    default: "false"
+  version:
+    description: "Version of mcp-card to install (defaults to latest)."
+    required: false
+    default: "latest"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: "20"
+
+    - name: Install mcp-card
+      shell: bash
+      run: npm install -g "mcp-card@${{ inputs.version }}"
+
+    - name: Validate
+      shell: bash
+      env:
+        TARGETS: ${{ inputs.target }}
+        STRICT: ${{ inputs.fail-on-warnings }}
+      run: |
+        set -e
+        EXIT=0
+        STRICT_FLAG=""
+        if [ "$STRICT" = "true" ]; then STRICT_FLAG="--strict"; fi
+        echo "$TARGETS" | while IFS= read -r target; do
+          [ -z "$target" ] && continue
+          echo "::group::Validating $target"
+          if ! mcp-card validate "$target" $STRICT_FLAG; then
+            EXIT=1
+            echo "::error::$target failed SEP-2127 validation"
+          fi
+          echo "::endgroup::"
+        done
+        exit $EXIT

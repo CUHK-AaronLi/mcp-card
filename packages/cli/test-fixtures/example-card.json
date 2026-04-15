@@ -1,0 +1,15 @@
+{
+  "name": "io.github.example/demo",
+  "version": "0.1.0",
+  "title": "Example Card",
+  "description": "Used by the demo GitHub Action workflow",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://example.com/mcp"
+    }
+  ],
+  "capabilities": {
+    "tools": { "listChanged": true }
+  }
+}

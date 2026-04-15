@@ -2,6 +2,7 @@
   "files": [],
   "references": [
     { "path": "./packages/schema" },
+    { "path": "./packages/client" },
     { "path": "./packages/middleware" },
     { "path": "./packages/cli" }
   ]

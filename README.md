@@ -36,20 +36,25 @@ The official [Server Card Working Group](https://modelcontextprotocol.io/communi
 
 | Package | What it does |
 |---|---|
-| [`mcp-card`](packages/cli) | CLI: generate, validate, preview, and convert cards |
+| [`mcp-card`](packages/cli) | CLI: generate, validate, preview, **discover**, **crawl**, convert |
 | [`@mcp-card/middleware`](packages/middleware) | One-line middleware for Express, Hono, Cloudflare Workers, Next.js |
+| [`@mcp-card/client`](packages/client) | Programmatic API to fetch + validate + crawl cards (used by the CLI) |
 | [`@mcp-card/schema`](packages/schema) | TypeBox + JSON Schema for SEP-2127, with TS types |
+
+Plus a [GitHub Action](#github-action) for CI validation.
 
 ## CLI
 
 ```bash
 npm i -g mcp-card
 
-mcp-card init                          # interactive scaffold
+mcp-card init                              # interactive scaffold
 mcp-card validate ./mcp-server-card.json
-mcp-card validate https://your-mcp.com   # auto-fetches /.well-known
+mcp-card validate https://your-mcp.com     # auto-fetches /.well-known
 mcp-card preview ./mcp-server-card.json
-mcp-card from-server-json ./server.json   # convert MCP Registry server.json
+mcp-card discover https://github-mcp.com   # rich remote report (latency, headers, warnings)
+mcp-card crawl ./urls.txt                  # bulk SEP-2127 compliance scan
+mcp-card from-server-json ./server.json    # convert MCP Registry server.json
 ```
 
 `mcp-card validate` against a URL also checks `Cache-Control`, `Access-Control-Allow-Origin`, and `Content-Type` headers and warns if they're missing.
@@ -70,6 +75,26 @@ $ mcp-card preview ./mcp-server-card.json
 │ by Spike Inc                                  │
 └───────────────────────────────────────────────┘
 ```
+
+## Programmatic client
+
+```ts
+import { discover, crawl, fetchCard } from "@mcp-card/client";
+
+const result = await discover("https://github-mcp.com");
+if (result.ok) {
+  console.log(result.card.name, result.card.version);
+  console.log("warnings:", result.warnings);
+}
+
+const report = await crawl(
+  ["https://server-a.com", "https://server-b.com"],
+  { concurrency: 16 },
+);
+console.log(`${report.ok}/${report.total} servers compliant`);
+```
+
+`fetchCard` returns the raw response (status, headers, schema errors, latency). `discover` adds best-practice header warnings. `crawl` runs them in parallel.
 
 ## Middleware
 
@@ -142,18 +167,50 @@ serverCardHono({
 })
 ```
 
+## GitHub Action
+
+Validate your repo's `mcp-server-card.json` on every PR:
+
+```yaml
+# .github/workflows/validate-card.yml
+name: Validate MCP Server Card
+on: [pull_request]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: CUHK-AaronLi/mcp-card@v0.1.0
+        with:
+          target: mcp-server-card.json   # file path or URL; multi-line supported
+          fail-on-warnings: "false"       # set true to fail on missing CORS/cache-control
+```
+
+Multi-target example:
+
+```yaml
+        with:
+          target: |
+            mcp-server-card.json
+            https://staging.your-mcp.com
+            https://prod.your-mcp.com
+          fail-on-warnings: "true"
+```
+
 ## Comparison
 
 | | `mcp-card` | [`mcp-servercard-go`](https://github.com/olgasafonova/mcp-servercard-go) |
 |---|---|---|
 | Language | TypeScript | Go |
-| CLI | ✅ init / validate / preview / from-server-json | ❌ |
+| CLI | ✅ 6 commands (incl. discover, crawl) | ❌ |
+| Programmatic client | ✅ `@mcp-card/client` | ❌ |
 | Web Fetch handler | ✅ runs anywhere | ❌ |
 | Express middleware | ✅ | ❌ |
 | Hono middleware | ✅ | ❌ |
 | Cloudflare Workers | ✅ | ❌ |
 | Next.js Route Handler | ✅ | ❌ |
 | go-sdk middleware | ❌ | ✅ |
+| GitHub Action | ✅ | ❌ |
 | SEP-2127 schema | ✅ TypeBox + JSON Schema | ✅ |
 
 ## Development

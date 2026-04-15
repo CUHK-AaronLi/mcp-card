@@ -3,7 +3,7 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
-  "linked": [["mcp-card", "@mcp-card/middleware", "@mcp-card/schema"]],
+  "linked": [["mcp-card", "@mcp-card/middleware", "@mcp-card/schema", "@mcp-card/client"]],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",

@@ -4,6 +4,8 @@ import { runInit } from "./commands/init.js";
 import { runValidate } from "./commands/validate.js";
 import { runPreview } from "./commands/preview.js";
 import { runFromServerJson } from "./commands/from-server-json.js";
+import { runDiscover } from "./commands/discover.js";
+import { runCrawl } from "./commands/crawl.js";
 
 const program = new Command();
 
@@ -35,6 +37,21 @@ program
   .description("Convert an MCP Registry server.json to an mcp-server-card.json")
   .option("-o, --out <path>", "Output path", "mcp-server-card.json")
   .action(runFromServerJson);
+
+program
+  .command("discover <target>")
+  .description("Fetch a remote card and report identity, transports, capabilities, and headers")
+  .option("--json", "Output raw JSON instead of a summary")
+  .option("--timeout <ms>", "Request timeout in milliseconds", "10000")
+  .action(runDiscover);
+
+program
+  .command("crawl <file>")
+  .description("Crawl a list of URLs (one per line) and report SEP-2127 compliance")
+  .option("--json", "Output raw JSON instead of a summary")
+  .option("--concurrency <n>", "Parallel requests", "8")
+  .option("--timeout <ms>", "Per-request timeout in milliseconds", "10000")
+  .action(runCrawl);
 
 program.parseAsync(process.argv).catch((err) => {
   console.error(err);
