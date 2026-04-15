@@ -1,0 +1,73 @@
+{
+  "name": "@mcp-card/middleware",
+  "version": "0.1.0",
+  "description": "One-line middleware to serve MCP Server Cards (.well-known/mcp-server-card.json) for Express, Hono, Cloudflare Workers, and Next.js",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./express": {
+      "types": "./dist/adapters/express.d.ts",
+      "import": "./dist/adapters/express.js"
+    },
+    "./hono": {
+      "types": "./dist/adapters/hono.d.ts",
+      "import": "./dist/adapters/hono.js"
+    },
+    "./cloudflare": {
+      "types": "./dist/adapters/cloudflare.d.ts",
+      "import": "./dist/adapters/cloudflare.js"
+    },
+    "./nextjs": {
+      "types": "./dist/adapters/nextjs.d.ts",
+      "import": "./dist/adapters/nextjs.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@mcp-card/schema": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.5",
+    "express": "^4.21.2",
+    "hono": "^4.6.16",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "express": "^4 || ^5",
+    "hono": "^4"
+  },
+  "peerDependenciesMeta": {
+    "express": { "optional": true },
+    "hono": { "optional": true }
+  },
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "sep-2127",
+    "server-card",
+    "middleware",
+    "express",
+    "hono",
+    "cloudflare-workers",
+    "nextjs"
+  ],
+  "homepage": "https://github.com/CUHK-AaronLi/mcp-card",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CUHK-AaronLi/mcp-card.git",
+    "directory": "packages/middleware"
+  }
+}

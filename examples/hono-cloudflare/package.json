@@ -1,0 +1,19 @@
+{
+  "name": "@mcp-card/example-hono",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.7",
+    "@mcp-card/middleware": "workspace:*",
+    "hono": "^4.6.16"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "@mcp-card/schema",
+  "version": "0.1.0",
+  "description": "TypeBox schema and JSON Schema for MCP Server Cards (SEP-2127)",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./json-schema": {
+      "types": "./dist/json-schema.d.ts",
+      "import": "./dist/json-schema.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@sinclair/typebox": "^0.34.14"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "license": "MIT",
+  "keywords": ["mcp", "model-context-protocol", "sep-2127", "server-card", "schema", "typebox"],
+  "homepage": "https://github.com/CUHK-AaronLi/mcp-card",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CUHK-AaronLi/mcp-card.git",
+    "directory": "packages/schema"
+  }
+}

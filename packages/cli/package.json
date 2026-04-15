@@ -1,0 +1,47 @@
+{
+  "name": "mcp-card",
+  "version": "0.1.0",
+  "description": "CLI to generate, validate, and preview MCP Server Cards (SEP-2127)",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "mcp-card": "./dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && chmod +x dist/index.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^7.3.1",
+    "@mcp-card/schema": "workspace:*",
+    "@sinclair/typebox": "^0.34.14",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "commander": "^13.1.0",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "license": "MIT",
+  "keywords": ["mcp", "model-context-protocol", "sep-2127", "server-card", "cli"],
+  "homepage": "https://github.com/CUHK-AaronLi/mcp-card",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CUHK-AaronLi/mcp-card.git",
+    "directory": "packages/cli"
+  }
+}
