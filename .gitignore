@@ -2,6 +2,12 @@ node_modules/
 dist/
 *.tsbuildinfo
 tsconfig.tsbuildinfo
+
+# Build artifacts must never end up next to source
+packages/*/src/**/*.js
+packages/*/src/**/*.js.map
+packages/*/src/**/*.d.ts
+packages/*/src/**/*.d.ts.map
 .DS_Store
 .env
 .env.local
