@@ -149,6 +149,27 @@ const card = createServerCardHandler({ name, version, remotes });
 // returns Response if request.url matches the card path, else null
 ```
 
+### MCP SDK resource (parity with the Go reference impl)
+
+In addition to serving over HTTP, you can expose the card as an MCP resource at
+`mcp://server-card.json` so already-connected clients can read it via the
+protocol itself — no out-of-band HTTP fetch needed.
+
+```ts
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { registerCardResource } from "@mcp-card/middleware";
+
+const server = new McpServer({ name: "my-server", version: "1.0.0" });
+
+registerCardResource(server, {
+  name: "io.github.you/server",
+  version: "1.0.0",
+  remotes: [{ type: "streamable-http", url: "https://your.com/mcp" }],
+});
+```
+
+`registerCardResource` is duck-typed — any object with a `registerResource(name, uri, metadata, handler)` method works, so it doesn't pin you to a specific MCP SDK version.
+
 ## Options
 
 ```ts
@@ -209,7 +230,7 @@ Multi-target example:
 | Hono middleware | ✅ | ❌ |
 | Cloudflare Workers | ✅ | ❌ |
 | Next.js Route Handler | ✅ | ❌ |
-| go-sdk middleware | ❌ | ✅ |
+| MCP SDK resource integration | ✅ `registerCardResource` (any SDK) | ✅ go-sdk only |
 | GitHub Action | ✅ | ❌ |
 | SEP-2127 schema | ✅ TypeBox + JSON Schema | ✅ |
 

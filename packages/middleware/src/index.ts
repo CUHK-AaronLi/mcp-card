@@ -5,3 +5,8 @@ export {
   getCardPath,
   type ServerCardOptions,
 } from "./card.js";
+export {
+  registerCardResource,
+  MCP_RESOURCE_URI,
+  type McpResourceHost,
+} from "./mcp-resource.js";

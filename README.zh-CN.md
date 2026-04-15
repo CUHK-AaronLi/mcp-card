@@ -149,6 +149,25 @@ const card = createServerCardHandler({ name, version, remotes });
 // 匹配 card 路径时返回 Response，否则返回 null
 ```
 
+### MCP SDK resource（对齐 Go 参考实现）
+
+除了用 HTTP 暴露，还可以把 card 注册成 MCP resource `mcp://server-card.json`，让**已连接的客户端通过 MCP 协议本身**就能读到，不用再走带外 HTTP fetch。
+
+```ts
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { registerCardResource } from "@mcp-card/middleware";
+
+const server = new McpServer({ name: "my-server", version: "1.0.0" });
+
+registerCardResource(server, {
+  name: "io.github.you/server",
+  version: "1.0.0",
+  remotes: [{ type: "streamable-http", url: "https://your.com/mcp" }],
+});
+```
+
+`registerCardResource` 是 **duck-typed** —— 任何带 `registerResource(name, uri, metadata, handler)` 方法的对象都能传，**不绑定具体 MCP SDK 版本**。
+
 ## 可配置项
 
 ```ts
@@ -209,7 +228,7 @@ jobs:
 | Hono 中间件 | ✅ | ❌ |
 | Cloudflare Workers | ✅ | ❌ |
 | Next.js Route Handler | ✅ | ❌ |
-| go-sdk 中间件 | ❌ | ✅ |
+| MCP SDK resource 集成 | ✅ `registerCardResource`（任意 SDK） | ✅ 仅 go-sdk |
 | GitHub Action | ✅ | ❌ |
 | SEP-2127 schema | ✅ TypeBox + JSON Schema | ✅ |
 
