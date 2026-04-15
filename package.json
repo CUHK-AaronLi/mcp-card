@@ -5,10 +5,11 @@
   "description": "TypeScript implementation of MCP Server Cards (SEP-2127)",
   "type": "module",
   "scripts": {
-    "build": "pnpm -r --filter=\"./packages/*\" build",
+    "build": "tsc -b && chmod +x packages/cli/dist/index.js",
+    "build:clean": "tsc -b --clean",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "pnpm -r --filter=\"./packages/*\" typecheck",
+    "typecheck": "tsc -b",
     "changeset": "changeset",
     "version": "changeset version",
     "release": "pnpm build && changeset publish"

@@ -16,8 +16,8 @@
   },
   "files": ["dist", "README.md"],
   "scripts": {
-    "build": "tsc -p tsconfig.json && chmod +x dist/index.js",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -b && chmod +x dist/index.js",
+    "typecheck": "tsc -b",
     "test": "vitest run",
     "dev": "tsx src/index.ts"
   },
