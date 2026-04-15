@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import pc from "picocolors";
-import { crawl } from "@mcp-card/client";
+import { crawl } from "mcp-card-client";
 
 export interface CrawlOptions {
   json?: boolean;

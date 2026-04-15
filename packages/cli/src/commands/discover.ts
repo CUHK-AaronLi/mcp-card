@@ -1,5 +1,5 @@
 import pc from "picocolors";
-import { discover } from "@mcp-card/client";
+import { discover } from "mcp-card-client";
 
 export interface DiscoverOptions {
   json?: boolean;

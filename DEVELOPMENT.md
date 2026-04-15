@@ -22,8 +22,8 @@ pnpm install
 ```
 mcp-card/
 ├── packages/
-│   ├── schema/      # @mcp-card/schema  — TypeBox + JSON Schema (SEP-2127)
-│   ├── middleware/  # @mcp-card/middleware — Express, Hono, CF, Next.js adapters
+│   ├── schema/      # mcp-card-schema  — TypeBox + JSON Schema (SEP-2127)
+│   ├── middleware/  # mcp-card-middleware — Express, Hono, CF, Next.js adapters
 │   └── cli/         # mcp-card — CLI binary
 ├── examples/
 │   ├── express-server/
@@ -73,7 +73,7 @@ The three packages are wired with **TypeScript project references**. `tsc -b` bu
 - `card.ts` builds the JSON body and headers (CORS, Cache-Control, Content-Type) — pure functions, no framework
 - `universal.ts` exports `createServerCardHandler` returning a Web Fetch–compatible `(Request) => Response | null`
 - Each adapter (`express`, `hono`, `cloudflare`, `nextjs`) is a 30-line wrapper that adapts the universal handler to its runtime's calling convention
-- Adapters are exported as separate subpath imports (`@mcp-card/middleware/hono`) so users only pay for what they import
+- Adapters are exported as separate subpath imports (`mcp-card-middleware/hono`) so users only pay for what they import
 
 ### CLI package
 - `commander` does argv parsing
@@ -92,7 +92,7 @@ pnpm build                     # rebuild dist
 pnpm release                   # publishes to npm (needs npm login)
 ```
 
-The three packages are version-linked via `.changeset/config.json` (`linked: [["mcp-card", "@mcp-card/middleware", "@mcp-card/schema"]]`) — they always ship together.
+The three packages are version-linked via `.changeset/config.json` (`linked: [["mcp-card", "mcp-card-middleware", "mcp-card-schema"]]`) — they always ship together.
 
 ## Tracking SEP-2127
 

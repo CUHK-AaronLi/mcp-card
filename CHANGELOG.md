@@ -10,5 +10,5 @@ See [`packages/cli/CHANGELOG.md`](packages/cli/CHANGELOG.md), [`packages/middlew
 
 - Initial implementation of [SEP-2127](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2127) MCP Server Cards
 - `mcp-card` CLI: `init`, `validate`, `preview`, `from-server-json`
-- `@mcp-card/middleware`: Express, Hono, Cloudflare Workers, Next.js adapters
-- `@mcp-card/schema`: TypeBox schema + JSON Schema for SEP-2127 v0.3.0
+- `mcp-card-middleware`: Express, Hono, Cloudflare Workers, Next.js adapters
+- `mcp-card-schema`: TypeBox schema + JSON Schema for SEP-2127 v0.3.0

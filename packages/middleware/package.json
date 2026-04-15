@@ -1,5 +1,5 @@
 {
-  "name": "@mcp-card/middleware",
+  "name": "mcp-card-middleware",
   "version": "0.1.0",
   "description": "One-line middleware to serve MCP Server Cards (.well-known/mcp-server-card.json) for Express, Hono, Cloudflare Workers, and Next.js",
   "type": "module",
@@ -28,13 +28,16 @@
     }
   },
   "files": ["dist", "README.md"],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc -b",
     "typecheck": "tsc -b",
     "test": "vitest run"
   },
   "dependencies": {
-    "@mcp-card/schema": "workspace:*"
+    "mcp-card-schema": "workspace:*"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",

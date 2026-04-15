@@ -1,5 +1,5 @@
 {
-  "name": "@mcp-card/schema",
+  "name": "mcp-card-schema",
   "version": "0.1.0",
   "description": "TypeBox schema and JSON Schema for MCP Server Cards (SEP-2127)",
   "type": "module",
@@ -16,6 +16,9 @@
     }
   },
   "files": ["dist", "README.md"],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc -b",
     "typecheck": "tsc -b",

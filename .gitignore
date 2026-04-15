@@ -11,6 +11,7 @@ packages/*/src/**/*.d.ts.map
 .DS_Store
 .env
 .env.local
+.npmrc
 coverage/
 *.log
 .vscode/

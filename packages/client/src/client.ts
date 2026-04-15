@@ -1,7 +1,7 @@
 import Ajv, { type ErrorObject } from "ajv";
 import addFormats from "ajv-formats";
-import type { ServerCard } from "@mcp-card/schema";
-import { asPlainJsonSchema, WELL_KNOWN_PATH, SEP_VERSION } from "@mcp-card/schema";
+import type { ServerCard } from "mcp-card-schema";
+import { asPlainJsonSchema, WELL_KNOWN_PATH, SEP_VERSION } from "mcp-card-schema";
 
 const ajv = new Ajv({ allErrors: true, strict: false });
 addFormats(ajv);

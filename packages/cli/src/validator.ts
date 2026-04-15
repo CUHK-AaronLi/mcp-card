@@ -1,6 +1,6 @@
 import Ajv, { type ErrorObject } from "ajv";
 import addFormats from "ajv-formats";
-import { asPlainJsonSchema } from "@mcp-card/schema/json-schema";
+import { asPlainJsonSchema } from "mcp-card-schema/json-schema";
 
 const ajv = new Ajv({ allErrors: true, strict: false });
 addFormats(ajv);

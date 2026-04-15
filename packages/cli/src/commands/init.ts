@@ -3,7 +3,7 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { input, select, confirm } from "@inquirer/prompts";
 import pc from "picocolors";
-import type { ServerCard } from "@mcp-card/schema";
+import type { ServerCard } from "mcp-card-schema";
 import { validate } from "../validator.js";
 
 export interface InitOptions {

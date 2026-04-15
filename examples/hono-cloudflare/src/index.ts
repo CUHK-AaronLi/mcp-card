@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
-import { serverCardHono } from "@mcp-card/middleware/hono";
+import { serverCardHono } from "mcp-card-middleware/hono";
 
 const app = new Hono();
 

@@ -3,14 +3,14 @@
 > TypeScript implementation of [SEP-2127](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2127) — MCP Server Cards. Make any MCP server discoverable via `.well-known/mcp-server-card.json` in one line.
 
 [![npm: mcp-card](https://img.shields.io/npm/v/mcp-card.svg?label=mcp-card)](https://npmjs.com/package/mcp-card)
-[![npm: @mcp-card/middleware](https://img.shields.io/npm/v/@mcp-card/middleware.svg?label=%40mcp-card%2Fmiddleware)](https://npmjs.com/package/@mcp-card/middleware)
-[![npm: @mcp-card/schema](https://img.shields.io/npm/v/@mcp-card/schema.svg?label=%40mcp-card%2Fschema)](https://npmjs.com/package/@mcp-card/schema)
+[![npm: mcp-card-middleware](https://img.shields.io/npm/v/mcp-card-middleware.svg?label=%40mcp-card%2Fmiddleware)](https://npmjs.com/package/mcp-card-middleware)
+[![npm: mcp-card-schema](https://img.shields.io/npm/v/mcp-card-schema.svg?label=%40mcp-card%2Fschema)](https://npmjs.com/package/mcp-card-schema)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **English** ｜ [简体中文](./README.zh-CN.md)
 
 ```ts
-import { serverCardHono } from "@mcp-card/middleware/hono";
+import { serverCardHono } from "mcp-card-middleware/hono";
 
 app.use(serverCardHono({
   name: "io.github.you/your-server",
@@ -37,9 +37,9 @@ The official [Server Card Working Group](https://modelcontextprotocol.io/communi
 | Package | What it does |
 |---|---|
 | [`mcp-card`](packages/cli) | CLI: generate, validate, preview, **discover**, **crawl**, convert |
-| [`@mcp-card/middleware`](packages/middleware) | One-line middleware for Express, Hono, Cloudflare Workers, Next.js |
-| [`@mcp-card/client`](packages/client) | Programmatic API to fetch + validate + crawl cards (used by the CLI) |
-| [`@mcp-card/schema`](packages/schema) | TypeBox + JSON Schema for SEP-2127, with TS types |
+| [`mcp-card-middleware`](packages/middleware) | One-line middleware for Express, Hono, Cloudflare Workers, Next.js |
+| [`mcp-card-client`](packages/client) | Programmatic API to fetch + validate + crawl cards (used by the CLI) |
+| [`mcp-card-schema`](packages/schema) | TypeBox + JSON Schema for SEP-2127, with TS types |
 
 Plus a [GitHub Action](#github-action) for CI validation.
 
@@ -79,7 +79,7 @@ $ mcp-card preview ./mcp-server-card.json
 ## Programmatic client
 
 ```ts
-import { discover, crawl, fetchCard } from "@mcp-card/client";
+import { discover, crawl, fetchCard } from "mcp-card-client";
 
 const result = await discover("https://github-mcp.com");
 if (result.ok) {
@@ -102,7 +102,7 @@ console.log(`${report.ok}/${report.total} servers compliant`);
 
 ```ts
 import express from "express";
-import { serverCardExpress } from "@mcp-card/middleware/express";
+import { serverCardExpress } from "mcp-card-middleware/express";
 
 const app = express();
 app.use(serverCardExpress({
@@ -116,7 +116,7 @@ app.use(serverCardExpress({
 
 ```ts
 import { Hono } from "hono";
-import { serverCardHono } from "@mcp-card/middleware/hono";
+import { serverCardHono } from "mcp-card-middleware/hono";
 
 const app = new Hono();
 app.use(serverCardHono({
@@ -131,7 +131,7 @@ export default app;
 
 ```ts
 // app/.well-known/mcp-server-card.json/route.ts
-import { serverCardNextjs } from "@mcp-card/middleware/nextjs";
+import { serverCardNextjs } from "mcp-card-middleware/nextjs";
 
 export const GET = serverCardNextjs({
   name: "io.github.you/server",
@@ -143,7 +143,7 @@ export const GET = serverCardNextjs({
 ### Anywhere (Web Fetch API)
 
 ```ts
-import { createServerCardHandler } from "@mcp-card/middleware";
+import { createServerCardHandler } from "mcp-card-middleware";
 
 const card = createServerCardHandler({ name, version, remotes });
 // returns Response if request.url matches the card path, else null
@@ -157,7 +157,7 @@ protocol itself — no out-of-band HTTP fetch needed.
 
 ```ts
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { registerCardResource } from "@mcp-card/middleware";
+import { registerCardResource } from "mcp-card-middleware";
 
 const server = new McpServer({ name: "my-server", version: "1.0.0" });
 
@@ -224,7 +224,7 @@ Multi-target example:
 |---|---|---|
 | Language | TypeScript | Go |
 | CLI | ✅ 6 commands (incl. discover, crawl) | ❌ |
-| Programmatic client | ✅ `@mcp-card/client` | ❌ |
+| Programmatic client | ✅ `mcp-card-client` | ❌ |
 | Web Fetch handler | ✅ runs anywhere | ❌ |
 | Express middleware | ✅ | ❌ |
 | Hono middleware | ✅ | ❌ |

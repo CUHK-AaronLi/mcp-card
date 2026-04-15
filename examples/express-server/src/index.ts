@@ -1,5 +1,5 @@
 import express from "express";
-import { serverCardExpress } from "@mcp-card/middleware/express";
+import { serverCardExpress } from "mcp-card-middleware/express";
 
 const app = express();
 

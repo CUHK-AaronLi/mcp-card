@@ -7,7 +7,7 @@
     "dev": "tsx src/index.ts"
   },
   "dependencies": {
-    "@mcp-card/middleware": "workspace:*",
+    "mcp-card-middleware": "workspace:*",
     "express": "^4.21.2"
   },
   "devDependencies": {

@@ -1,9 +1,9 @@
-# @mcp-card/schema
+# mcp-card-schema
 
 TypeBox schema, JSON Schema, and TypeScript types for [SEP-2127](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2127) MCP Server Cards.
 
 ```ts
-import { ServerCardSchema, type ServerCard, WELL_KNOWN_PATH } from "@mcp-card/schema";
+import { ServerCardSchema, type ServerCard, WELL_KNOWN_PATH } from "mcp-card-schema";
 import { Value } from "@sinclair/typebox/value";
 
 const card: ServerCard = {
@@ -19,7 +19,7 @@ console.log(WELL_KNOWN_PATH);                       // /.well-known/mcp-server-c
 For runtime validation against arbitrary input, prefer Ajv:
 
 ```ts
-import { asPlainJsonSchema } from "@mcp-card/schema/json-schema";
+import { asPlainJsonSchema } from "mcp-card-schema/json-schema";
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
 

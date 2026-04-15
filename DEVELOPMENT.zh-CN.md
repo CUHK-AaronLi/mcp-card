@@ -22,8 +22,8 @@ pnpm install
 ```
 mcp-card/
 ├── packages/
-│   ├── schema/      # @mcp-card/schema  — TypeBox + JSON Schema (SEP-2127)
-│   ├── middleware/  # @mcp-card/middleware — Express、Hono、CF、Next.js 适配器
+│   ├── schema/      # mcp-card-schema  — TypeBox + JSON Schema (SEP-2127)
+│   ├── middleware/  # mcp-card-middleware — Express、Hono、CF、Next.js 适配器
 │   └── cli/         # mcp-card — CLI 二进制
 ├── examples/
 │   ├── express-server/
@@ -73,7 +73,7 @@ mcp-card/
 - `card.ts` 负责生成 JSON body 和 headers（CORS、Cache-Control、Content-Type）—— 纯函数，跟框架无关
 - `universal.ts` 暴露 `createServerCardHandler`，返回 Web Fetch 标准 `(Request) => Response | null` 处理函数
 - 每个适配器（`express`、`hono`、`cloudflare`、`nextjs`）都是 30 行的薄包装，把通用 handler 适配到对应 runtime 的调用约定
-- 适配器作为**子路径导出**（`@mcp-card/middleware/hono`），用户只为用到的适配器付出 import 成本
+- 适配器作为**子路径导出**（`mcp-card-middleware/hono`），用户只为用到的适配器付出 import 成本
 
 ### CLI 包
 - `commander` 解析 argv
@@ -92,7 +92,7 @@ pnpm build                     # 重新构建 dist
 pnpm release                   # 发布到 npm（需 npm login）
 ```
 
-三个包通过 `.changeset/config.json` 的 `linked: [["mcp-card", "@mcp-card/middleware", "@mcp-card/schema"]]` 联动，**版本号永远一起涨**。
+三个包通过 `.changeset/config.json` 的 `linked: [["mcp-card", "mcp-card-middleware", "mcp-card-schema"]]` 联动，**版本号永远一起涨**。
 
 ## 跟踪 SEP-2127
 

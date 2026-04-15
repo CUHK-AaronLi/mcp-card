@@ -1,5 +1,5 @@
 import pc from "picocolors";
-import type { ServerCard } from "@mcp-card/schema";
+import type { ServerCard } from "mcp-card-schema";
 import { loadCard } from "../loader.js";
 import { validate } from "../validator.js";
 

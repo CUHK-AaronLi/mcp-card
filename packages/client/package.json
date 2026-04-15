@@ -1,5 +1,5 @@
 {
-  "name": "@mcp-card/client",
+  "name": "mcp-card-client",
   "version": "0.1.0",
   "description": "Fetch, validate, and discover MCP Server Cards (SEP-2127) from any URL",
   "type": "module",
@@ -12,13 +12,16 @@
     }
   },
   "files": ["dist", "README.md"],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc -b",
     "typecheck": "tsc -b",
     "test": "vitest run"
   },
   "dependencies": {
-    "@mcp-card/schema": "workspace:*",
+    "mcp-card-schema": "workspace:*",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1"
   },

@@ -1,5 +1,5 @@
-import type { ServerCard } from "@mcp-card/schema";
-import { WELL_KNOWN_PATH } from "@mcp-card/schema";
+import type { ServerCard } from "mcp-card-schema";
+import { WELL_KNOWN_PATH } from "mcp-card-schema";
 
 export interface ServerCardOptions extends ServerCard {
   /** Path to serve at. Defaults to /.well-known/mcp-server-card.json */

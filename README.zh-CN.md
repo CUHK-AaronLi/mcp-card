@@ -3,14 +3,14 @@
 > [SEP-2127](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2127) 的 TypeScript 实现 —— MCP Server Cards。一行代码让任何 MCP server 通过 `.well-known/mcp-server-card.json` 被自动发现。
 
 [![npm: mcp-card](https://img.shields.io/npm/v/mcp-card.svg?label=mcp-card)](https://npmjs.com/package/mcp-card)
-[![npm: @mcp-card/middleware](https://img.shields.io/npm/v/@mcp-card/middleware.svg?label=%40mcp-card%2Fmiddleware)](https://npmjs.com/package/@mcp-card/middleware)
-[![npm: @mcp-card/schema](https://img.shields.io/npm/v/@mcp-card/schema.svg?label=%40mcp-card%2Fschema)](https://npmjs.com/package/@mcp-card/schema)
+[![npm: mcp-card-middleware](https://img.shields.io/npm/v/mcp-card-middleware.svg?label=%40mcp-card%2Fmiddleware)](https://npmjs.com/package/mcp-card-middleware)
+[![npm: mcp-card-schema](https://img.shields.io/npm/v/mcp-card-schema.svg?label=%40mcp-card%2Fschema)](https://npmjs.com/package/mcp-card-schema)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 [English](./README.md) ｜ **简体中文**
 
 ```ts
-import { serverCardHono } from "@mcp-card/middleware/hono";
+import { serverCardHono } from "mcp-card-middleware/hono";
 
 app.use(serverCardHono({
   name: "io.github.you/your-server",
@@ -37,9 +37,9 @@ app.use(serverCardHono({
 | 包 | 干啥 |
 |---|---|
 | [`mcp-card`](packages/cli) | CLI：生成、校验、预览、**discover**、**crawl**、转换 |
-| [`@mcp-card/middleware`](packages/middleware) | 一行接入的中间件，支持 Express / Hono / Cloudflare Workers / Next.js |
-| [`@mcp-card/client`](packages/client) | 编程式 API：拉取 + 校验 + 批量爬取 card（CLI 也基于它） |
-| [`@mcp-card/schema`](packages/schema) | SEP-2127 的 TypeBox + JSON Schema，附 TS 类型 |
+| [`mcp-card-middleware`](packages/middleware) | 一行接入的中间件，支持 Express / Hono / Cloudflare Workers / Next.js |
+| [`mcp-card-client`](packages/client) | 编程式 API：拉取 + 校验 + 批量爬取 card（CLI 也基于它） |
+| [`mcp-card-schema`](packages/schema) | SEP-2127 的 TypeBox + JSON Schema，附 TS 类型 |
 
 外加一个 [GitHub Action](#github-action)，CI 里一行验 card。
 
@@ -79,7 +79,7 @@ $ mcp-card preview ./mcp-server-card.json
 ## 编程式 client
 
 ```ts
-import { discover, crawl, fetchCard } from "@mcp-card/client";
+import { discover, crawl, fetchCard } from "mcp-card-client";
 
 const result = await discover("https://github-mcp.com");
 if (result.ok) {
@@ -102,7 +102,7 @@ console.log(`${report.ok}/${report.total} 个 server 合规`);
 
 ```ts
 import express from "express";
-import { serverCardExpress } from "@mcp-card/middleware/express";
+import { serverCardExpress } from "mcp-card-middleware/express";
 
 const app = express();
 app.use(serverCardExpress({
@@ -116,7 +116,7 @@ app.use(serverCardExpress({
 
 ```ts
 import { Hono } from "hono";
-import { serverCardHono } from "@mcp-card/middleware/hono";
+import { serverCardHono } from "mcp-card-middleware/hono";
 
 const app = new Hono();
 app.use(serverCardHono({
@@ -131,7 +131,7 @@ export default app;
 
 ```ts
 // app/.well-known/mcp-server-card.json/route.ts
-import { serverCardNextjs } from "@mcp-card/middleware/nextjs";
+import { serverCardNextjs } from "mcp-card-middleware/nextjs";
 
 export const GET = serverCardNextjs({
   name: "io.github.you/server",
@@ -143,7 +143,7 @@ export const GET = serverCardNextjs({
 ### 其他（Web Fetch API）
 
 ```ts
-import { createServerCardHandler } from "@mcp-card/middleware";
+import { createServerCardHandler } from "mcp-card-middleware";
 
 const card = createServerCardHandler({ name, version, remotes });
 // 匹配 card 路径时返回 Response，否则返回 null
@@ -155,7 +155,7 @@ const card = createServerCardHandler({ name, version, remotes });
 
 ```ts
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { registerCardResource } from "@mcp-card/middleware";
+import { registerCardResource } from "mcp-card-middleware";
 
 const server = new McpServer({ name: "my-server", version: "1.0.0" });
 
@@ -222,7 +222,7 @@ jobs:
 |---|---|---|
 | 语言 | TypeScript | Go |
 | CLI | ✅ 6 个命令（含 discover、crawl） | ❌ |
-| 编程式 client | ✅ `@mcp-card/client` | ❌ |
+| 编程式 client | ✅ `mcp-card-client` | ❌ |
 | Web Fetch handler | ✅ 跨 runtime | ❌ |
 | Express 中间件 | ✅ | ❌ |
 | Hono 中间件 | ✅ | ❌ |

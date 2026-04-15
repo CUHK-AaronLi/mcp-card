@@ -1,9 +1,9 @@
-# @mcp-card/client
+# mcp-card-client
 
 Programmatic client for fetching, validating, and crawling MCP Server Cards ([SEP-2127](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2127)).
 
 ```ts
-import { discover, crawl, fetchCard, resolveCardUrl } from "@mcp-card/client";
+import { discover, crawl, fetchCard, resolveCardUrl } from "mcp-card-client";
 
 // Fetch a single card
 const r = await discover("https://github-mcp.com");

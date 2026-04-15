@@ -20,12 +20,12 @@ importers:
 
   examples/express-server:
     dependencies:
-      '@mcp-card/middleware':
-        specifier: workspace:*
-        version: link:../../packages/middleware
       express:
         specifier: ^4.21.2
         version: 4.22.1
+      mcp-card-middleware:
+        specifier: workspace:*
+        version: link:../../packages/middleware
     devDependencies:
       '@types/express':
         specifier: ^5.0.0
@@ -45,12 +45,12 @@ importers:
       '@hono/node-server':
         specifier: ^1.13.7
         version: 1.19.14(hono@4.12.14)
-      '@mcp-card/middleware':
-        specifier: workspace:*
-        version: link:../../packages/middleware
       hono:
         specifier: ^4.6.16
         version: 4.12.14
+      mcp-card-middleware:
+        specifier: workspace:*
+        version: link:../../packages/middleware
     devDependencies:
       '@types/node':
         specifier: ^22.10.5
@@ -67,12 +67,6 @@ importers:
       '@inquirer/prompts':
         specifier: ^7.3.1
         version: 7.10.1(@types/node@22.19.17)
-      '@mcp-card/client':
-        specifier: workspace:*
-        version: link:../client
-      '@mcp-card/schema':
-        specifier: workspace:*
-        version: link:../schema
       '@sinclair/typebox':
         specifier: ^0.34.14
         version: 0.34.49
@@ -85,6 +79,12 @@ importers:
       commander:
         specifier: ^13.1.0
         version: 13.1.0
+      mcp-card-client:
+        specifier: workspace:*
+        version: link:../client
+      mcp-card-schema:
+        specifier: workspace:*
+        version: link:../schema
       picocolors:
         specifier: ^1.1.1
         version: 1.1.1
@@ -104,15 +104,15 @@ importers:
 
   packages/client:
     dependencies:
-      '@mcp-card/schema':
-        specifier: workspace:*
-        version: link:../schema
       ajv:
         specifier: ^8.17.1
         version: 8.18.0
       ajv-formats:
         specifier: ^3.0.1
         version: 3.0.1(ajv@8.18.0)
+      mcp-card-schema:
+        specifier: workspace:*
+        version: link:../schema
     devDependencies:
       '@types/node':
         specifier: ^22.10.5
@@ -126,7 +126,7 @@ importers:
 
   packages/middleware:
     dependencies:
-      '@mcp-card/schema':
+      mcp-card-schema:
         specifier: workspace:*
         version: link:../schema
     devDependencies:

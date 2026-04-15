@@ -1,9 +1,9 @@
-# @mcp-card/middleware
+# mcp-card-middleware
 
 One-line middleware to serve MCP Server Cards ([SEP-2127](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2127)) for Express, Hono, Cloudflare Workers, and Next.js.
 
 ```ts
-import { serverCardHono } from "@mcp-card/middleware/hono";
+import { serverCardHono } from "mcp-card-middleware/hono";
 
 app.use(serverCardHono({
   name: "io.github.you/server",

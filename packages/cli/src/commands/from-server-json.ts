@@ -1,7 +1,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import pc from "picocolors";
-import type { ServerCard, ServerCardRemote } from "@mcp-card/schema";
+import type { ServerCard, ServerCardRemote } from "mcp-card-schema";
 import { validate } from "../validator.js";
 
 interface ServerJson {

@@ -4,7 +4,7 @@ For Next.js App Router (13.4+):
 
 ```ts
 // app/.well-known/mcp-server-card.json/route.ts
-import { serverCardNextjs } from "@mcp-card/middleware/nextjs";
+import { serverCardNextjs } from "mcp-card-middleware/nextjs";
 
 export const GET = serverCardNextjs({
   name: "io.github.example/nextjs-demo",
